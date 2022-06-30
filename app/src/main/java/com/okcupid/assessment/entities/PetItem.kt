@@ -13,4 +13,12 @@ data class PetItem(
     val photo: String,
     val match: Int,
     val liked: Boolean,
-)
+) {
+    constructor(
+        petInfo: Response.PetInfo
+    ): this(
+        petInfo.userId, petInfo.userName, petInfo.age,
+        petInfo.location.countryCode, petInfo.location.stateCode, petInfo.location.cityName,
+        petInfo.photo.medium, petInfo.match, false
+    )
+}

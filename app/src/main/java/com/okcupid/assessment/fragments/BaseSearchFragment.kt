@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.okcupid.assessment.adapters.PetListAdapter
 import com.okcupid.assessment.databinding.PetListLayoutBinding
+import com.okcupid.assessment.entities.LoadResult
+import com.okcupid.assessment.viewModels.BaseViewModel
 
 /**
  * Base Fragment with abstract [search] function
@@ -15,10 +18,21 @@ import com.okcupid.assessment.databinding.PetListLayoutBinding
  */
 abstract class BaseSearchFragment: Fragment() {
 
+    // ViewModel
+    abstract val viewModel: BaseViewModel
+
     // Binding variable
-    protected lateinit var binding: PetListLayoutBinding
+    lateinit var binding: PetListLayoutBinding
 
     protected val adapter = PetListAdapter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            viewModel.fetchData()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +47,14 @@ abstract class BaseSearchFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerview.adapter = adapter
+
+        viewModel.loading.observe(viewLifecycleOwner) {
+            binding.progressBar.isVisible = it == LoadResult.LOADING
+            binding.recyclerview.isVisible = it == LoadResult.SUCCESS
+        }
+        viewModel.petList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
     }
 
     abstract fun search(keyword: String)

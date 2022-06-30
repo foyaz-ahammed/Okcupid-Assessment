@@ -1,17 +1,13 @@
 package com.okcupid.assessment.fragments
 
-import android.os.Bundle
-import android.view.View
-import com.okcupid.assessment.entities.PetItem
+import com.okcupid.assessment.viewModels.MatchPercentViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Fragment for Match % page
  */
 class MatchPercentFragment: BaseSearchFragment() {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
+    override val viewModel by viewModel<MatchPercentViewModel>()
 
     override fun search(keyword: String) {
         TODO("Not yet implemented")

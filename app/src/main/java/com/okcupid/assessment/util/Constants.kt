@@ -5,4 +5,5 @@ package com.okcupid.assessment.util
  */
 object Constants {
     const val MATCH_MAX = 20000
+    const val BASE_URL = "https://static.okccdn.com/"
 }
