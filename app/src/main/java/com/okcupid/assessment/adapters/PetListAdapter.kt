@@ -48,6 +48,15 @@ class PetListAdapter: ListAdapter<PetItem, PetListAdapter.ViewHolder>(DiffCallba
 
     }
 
+    /**
+     * Clear memory when the view is recycled
+     */
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+
+        holder.recycle()
+    }
+
     inner class ViewHolder(private val binding: RowPetBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: PetItem) {
@@ -67,6 +76,13 @@ class PetListAdapter: ListAdapter<PetItem, PetListAdapter.ViewHolder>(DiffCallba
             }
             binding.like.setOnClickListener {
                 itemClickListener?.invoke(item)
+            }
+        }
+
+        fun recycle() {
+            Glide.with(binding.root.context).apply {
+                clear(binding.like)
+                clear(binding.image)
             }
         }
 

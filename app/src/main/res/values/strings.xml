@@ -3,4 +3,6 @@
     <string name="special_blend">Special Blend</string>
     <string name="match_percent">Match %</string>
     <string name="match_percent_format">%1$02d%% Match</string>
+    <string name="retry">Retry</string>
+    <string name="error_message">Error loading data. Please try again</string>
 </resources>

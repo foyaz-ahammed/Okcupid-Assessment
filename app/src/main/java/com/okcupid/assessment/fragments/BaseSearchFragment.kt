@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.okcupid.assessment.adapters.PetListAdapter
@@ -47,10 +48,13 @@ abstract class BaseSearchFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerview.adapter = adapter
-
+        binding.retryBtn.setOnClickListener {
+            viewModel.fetchData()
+        }
         viewModel.loading.observe(viewLifecycleOwner) {
             binding.progressBar.isVisible = it == LoadResult.LOADING
             binding.recyclerview.isVisible = it == LoadResult.SUCCESS
+            binding.errorViews.isVisible = it == LoadResult.FAIL
         }
         viewModel.petList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
@@ -64,4 +68,5 @@ abstract class BaseSearchFragment: Fragment() {
     }
 
     abstract fun search(keyword: String)
+
 }
