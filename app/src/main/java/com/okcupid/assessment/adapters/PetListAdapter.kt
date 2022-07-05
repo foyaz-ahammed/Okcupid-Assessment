@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.okcupid.assessment.R
 import com.okcupid.assessment.databinding.RowPetBinding
 import com.okcupid.assessment.entities.PetItem
-import com.okcupid.assessment.extensions.getMatchPercentText
+import com.okcupid.assessment.util.getMatchPercentText
 
 /**
  * [ListAdapter] for [PetItem]

@@ -1,5 +1,7 @@
 package com.okcupid.assessment.util
 
+import android.content.Context
+import com.okcupid.assessment.R
 import com.okcupid.assessment.entities.PetItem
 
 /**
@@ -12,4 +14,12 @@ fun List<PetItem>.cloneList(): ArrayList<PetItem> {
     }
 
     return list
+}
+
+/**
+ * @return Formatted match percent text
+ */
+fun Int.getMatchPercentText(context: Context): String {
+    val percent = (this * 100) / Constants.MATCH_MAX
+    return context.getString(R.string.match_percent_format, percent)
 }
