@@ -66,8 +66,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.viewmodel_ktx"
 
     // Room
-    implementation("androidx.room:room-runtime:$versions.room")
-    annotationProcessor("androidx.room:room-compiler:$versions.room")
+    kapt "androidx.room:room-compiler:$versions.room"
+    implementation "androidx.room:room-runtime:$versions.room"
+    implementation "androidx.room:room-ktx:$versions.room"
+    annotationProcessor "androidx.room:room-compiler:$versions.room"
 
     testImplementation "junit:junit:$versions.junit"
     androidTestImplementation "androidx.test.ext:junit:$versions.test_ext"

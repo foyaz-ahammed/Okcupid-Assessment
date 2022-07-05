@@ -16,6 +16,8 @@ import com.okcupid.assessment.extensions.getMatchPercentText
  */
 class PetListAdapter: ListAdapter<PetItem, PetListAdapter.ViewHolder>(DiffCallback) {
 
+    private var itemClickListener: ((PetItem) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: RowPetBinding = RowPetBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -30,10 +32,14 @@ class PetListAdapter: ListAdapter<PetItem, PetListAdapter.ViewHolder>(DiffCallba
         holder.bind(item)
     }
 
+    fun setItemClickListener(listener: ((PetItem) -> Unit)? = null) {
+        this.itemClickListener = listener
+    }
+
     object DiffCallback: DiffUtil.ItemCallback<PetItem>() {
 
         override fun areItemsTheSame(oldItem: PetItem, newItem: PetItem): Boolean {
-            return oldItem.userid == newItem.userid
+            return oldItem.userId == newItem.userId
         }
 
         override fun areContentsTheSame(oldItem: PetItem, newItem: PetItem): Boolean {
@@ -42,18 +48,26 @@ class PetListAdapter: ListAdapter<PetItem, PetListAdapter.ViewHolder>(DiffCallba
 
     }
 
-    class ViewHolder(private val binding: RowPetBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: RowPetBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: PetItem) {
-            binding.name.text = item.username
+            binding.name.text = item.userName
             binding.address.text = String.format("%s • %s, %s, %s", item.age, item.cityName, item.stateCode, item.countryCode)
             binding.matchPercent.text = item.match.getMatchPercentText(binding.root.context)
+            Glide.with(binding.root.context)
+                .load( if (item.liked) R.drawable.ic_star else R.drawable.ic_unstar )
+                .into(binding.like)
 
             Glide.with(binding.root.context)
                 .load(item.photo)
                 .into(binding.image)
 
-            binding.root.setOnClickListener {  }
+            binding.root.setOnClickListener {
+                itemClickListener?.invoke(item)
+            }
+            binding.like.setOnClickListener {
+                itemClickListener?.invoke(item)
+            }
         }
 
     }

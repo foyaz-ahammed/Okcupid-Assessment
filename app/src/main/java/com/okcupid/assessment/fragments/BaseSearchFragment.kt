@@ -57,5 +57,11 @@ abstract class BaseSearchFragment: Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.fetchData(true)
+    }
+
     abstract fun search(keyword: String)
 }
