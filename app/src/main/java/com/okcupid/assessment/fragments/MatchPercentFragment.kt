@@ -15,6 +15,7 @@ class MatchPercentFragment: BaseSearchFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adapter.setItemCountLimit(6)
         adapter.setItemClickListener { item ->
             val list = adapter.currentList.cloneList()
             val updatedItem = list.findLast {

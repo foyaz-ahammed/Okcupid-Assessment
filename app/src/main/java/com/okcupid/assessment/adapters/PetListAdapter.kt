@@ -16,6 +16,7 @@ import com.okcupid.assessment.util.getMatchPercentText
  */
 class PetListAdapter: ListAdapter<PetItem, PetListAdapter.ViewHolder>(DiffCallback) {
 
+    private var itemCountLimit = -1
     private var itemClickListener: ((PetItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,8 +33,20 @@ class PetListAdapter: ListAdapter<PetItem, PetListAdapter.ViewHolder>(DiffCallba
         holder.bind(item)
     }
 
+    override fun getItemCount(): Int {
+        return if (itemCountLimit == -1){
+            super.getItemCount()
+        } else {
+            super.getItemCount().coerceAtMost(itemCountLimit)
+        }
+    }
+
     fun setItemClickListener(listener: ((PetItem) -> Unit)? = null) {
         this.itemClickListener = listener
+    }
+
+    fun setItemCountLimit(count: Int) {
+        this.itemCountLimit = count
     }
 
     object DiffCallback: DiffUtil.ItemCallback<PetItem>() {
